@@ -65,9 +65,9 @@ def ruleOnRecpt(Quote, rebTypes):
 		Quote.CustomFields.SelectValueByValueCode("BO_CF_RCPT_OPT", "1")
 		#reset validation Message
 		Quote.QuoteTables["BO_SOLDTO"].ExecuteValidations()
-		if agrType == "1": #sold-to
+		if agrType == "1": #offer agreement type = sold-to
 			Quote.CustomFields.Allow("BO_CF_REBATE_RECIPIENT")
-		else: #end customer
+		else: #offer agreement type = end customer
 			Quote.CustomFields.Disallow("BO_CF_REBATE_RECIPIENT")
 
 #rules on rebate amount/percentage
