@@ -201,8 +201,6 @@ def clearCustomFields(Quote):
 	Quote.GetCustomField('BO_CF_UNIT').Content      		= ""
 	Quote.GetCustomField('BO_CF_REBATE_PERC').Content      	= ""
 	Quote.GetCustomField('BO_CF_REBATE_AMOUNT').Content     = ""
-	Quote.GetCustomField('BO_CF_REBATE_TYPE').Content   	= ""
-
 
 def rebateMsg(rebateType, Quote):
 	codeTypeShort = rebateCodeType(rebateType)[2]
