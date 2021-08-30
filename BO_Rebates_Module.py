@@ -201,6 +201,7 @@ def clearCustomFields(Quote):
 	Quote.GetCustomField('BO_CF_UNIT').Content      		= ""
 	Quote.GetCustomField('BO_CF_REBATE_PERC').Content      	= ""
 	Quote.GetCustomField('BO_CF_REBATE_AMOUNT').Content     = ""
+	Quote.CustomFields.SelectValueByValueCode("BO_CF_SETTLE_PERIOD", "0")
 
 def rebateMsg(rebateType, Quote):
 	codeTypeShort = rebateCodeType(rebateType)[2]
@@ -496,13 +497,14 @@ def getConditionItems(condType,		#Condition Type
 			conditionItems["ScaleConditionUnit"] = scaleUnit
 		conditionItems["CalculationType"] 		 = calcType
 		conditionItems["Rate"] 					 = rate
-		conditionItems["ConditionUnit"] 		 = condUnit
 		if condType[len(condType)-1] == "%":
 			conditionItems["ConditionPricingUnit"]   = ""
-			conditionItems["RateUnit"] 				 = ""
+			conditionItems["RateUnit"] 				 = "P1"
+			conditionItems["ConditionUnit"] 		 = "P1"
 		else:
 			conditionItems["ConditionPricingUnit"]   = condPriceUnit
 			conditionItems["RateUnit"] 				 = rateUnit
+			conditionItems["ConditionUnit"] 		 = condUnit
 		conditionItems["Material"] 				 = mat
 		conditionItems["AccrualAmount"] 	 	 = accAmt
 
@@ -943,8 +945,6 @@ def getJson(Quote, refDocNum):
 			for row in scale.Rows:
 				if row["PERC"] > accAmt:
 					accAmt = row["PERC"]
-			#rate 	= rate * 10
-			#accAmt	= accAmt * 10
 		accAmt = accAmt * -1
 		rate   = rate * -1
 		#Rate unit (currency or percent
