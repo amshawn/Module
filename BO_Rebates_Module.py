@@ -432,7 +432,7 @@ def getConditionScale(scale, type):
 	conditionScale = dict()
 	conditionScale["ConditionScaleQty"] = scale["QUANTITY"]  #Condition scale quantity
 	if type == "%":
-		conditionScale["Rate"]			= scale["PERC"] * -10	  #Rate (condition amount or percentage)
+		conditionScale["Rate"]			= scale["PERC"] * -1	  #Rate (condition amount or percentage)
 	else:
 		conditionScale["Rate"]			= scale["AMOUNT"] * -1
 	return conditionScale
@@ -943,8 +943,8 @@ def getJson(Quote, refDocNum):
 			for row in scale.Rows:
 				if row["PERC"] > accAmt:
 					accAmt = row["PERC"]
-			rate 	= rate * 10
-			accAmt	= accAmt * 10
+			#rate 	= rate * 10
+			#accAmt	= accAmt * 10
 		accAmt = accAmt * -1
 		rate   = rate * -1
 		#Rate unit (currency or percent
