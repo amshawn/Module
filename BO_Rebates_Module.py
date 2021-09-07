@@ -998,16 +998,16 @@ def getJson(Quote, refDocNum):
 				for brand in brands:
 					for soldTo in soldTos.Rows:
 						variableKey = salesOrg
-						variableKey =  variableKey + brand + soldTo["SAPID"].zfill(10) + matType
+						variableKey =  variableKey + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
 						#add end customer if applicable
 						if agrType == "3": #end customer
 							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
-							variableKey = salesOrg + endCust + brand + soldTo["SAPID"].zfill(10) + matType
+							variableKey = salesOrg + endCust + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
 							if isEndObj:
 								for endObj in endObjs:
 									#add end use object if applicable
 									if isEndObj:
-										variableKey = salesOrg + endCust + brand + soldTo["SAPID"].zfill(10) + endObj
+										variableKey = salesOrg + endCust + brand.ljust(6) + soldTo["SAPID"].zfill(10) + endObj
 
 										#build dictionary for condition key
 										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
