@@ -177,7 +177,7 @@ def rebateScaleVisibility(rebateScaleTable, rebateType, Quote):
 
 def rebateCodeType(rebateType):
 	# build sql query based on rebate type selected
-	sqlQuery    	= "SELECT COND_UNCOND,TYPE FROM BO_REBATE_TYPE WHERE KEY_COMBO = '%s'"
+	sqlQuery		= "SELECT COND_UNCOND,TYPE FROM BO_REBATE_TYPE WHERE KEY_COMBO = '%s'"
 
 	# call sql query & store values
 	checkCond   	= SqlHelper.GetFirst(sqlQuery%rebateType).COND_UNCOND
@@ -189,18 +189,18 @@ def rebateCodeType(rebateType):
 
 
 def clearCustomFields(Quote):
-	Quote.GetCustomField('BO_CF_NAME_OUTPUT').Content       = ""
+	Quote.GetCustomField('BO_CF_NAME_OUTPUT').Content	   = ""
 	Quote.GetCustomField('BO_CF_REBATE_RECIPIENT').Content  = ""
-	Quote.GetCustomField('BO_CF_VALIDITY_START').Content    = ""
-	Quote.GetCustomField('BO_CF_VALIDITY_END').Content      = ""
-	Quote.GetCustomField('BO_CF_PAY_CURRENCY').Content      = ""
+	Quote.GetCustomField('BO_CF_VALIDITY_START').Content	= ""
+	Quote.GetCustomField('BO_CF_VALIDITY_END').Content	  = ""
+	Quote.GetCustomField('BO_CF_PAY_CURRENCY').Content	  = ""
 	Quote.GetCustomField('BO_CF_RCPT_OPT').Content  		= ""
-	Quote.GetCustomField('BO_CF_SETTLE_PERIOD').Content     = ""
-	Quote.GetCustomField('BO_CF_SAP_NUM').Content      		= ""
-	Quote.GetCustomField('BO_CF_VALID_UNTIL').Content      	= ""
-	Quote.GetCustomField('BO_CF_UNIT').Content      		= ""
-	Quote.GetCustomField('BO_CF_REBATE_PERC').Content      	= ""
-	Quote.GetCustomField('BO_CF_REBATE_AMOUNT').Content     = ""
+	Quote.GetCustomField('BO_CF_SETTLE_PERIOD').Content	 = ""
+	Quote.GetCustomField('BO_CF_SAP_NUM').Content	  		= ""
+	Quote.GetCustomField('BO_CF_VALID_UNTIL').Content	  	= ""
+	Quote.GetCustomField('BO_CF_UNIT').Content	  		= ""
+	Quote.GetCustomField('BO_CF_REBATE_PERC').Content	  	= ""
+	Quote.GetCustomField('BO_CF_REBATE_AMOUNT').Content	 = ""
 	Quote.CustomFields.SelectValueByValueCode("BO_CF_SETTLE_PERIOD", "0")
 
 def rebateMsg(rebateType, Quote):
@@ -256,27 +256,27 @@ from Scripting.QuoteTables import AccessLevel
 
 #get defaulted variable from custom table
 def getVariable(name):
-    variableTable = SqlHelper.GetFirst("""
-    SELECT *
-    FROM MG_VARIANT_VARIABLE
-    WHERE NAME = '{name}'
-    """.format(name=name)
-    )
-    if variableTable != None:
-        var = { "TYPE": variableTable.TYPE, "LOW": variableTable.LOW, "HIGH": variableTable.HIGH }
-    else:
-        var = { "TYPE": "", "LOW": "", "HIGH": "" }
-    return var
+	variableTable = SqlHelper.GetFirst("""
+	SELECT *
+	FROM MG_VARIANT_VARIABLE
+	WHERE NAME = '{name}'
+	""".format(name=name)
+	)
+	if variableTable != None:
+		var = { "TYPE": variableTable.TYPE, "LOW": variableTable.LOW, "HIGH": variableTable.HIGH }
+	else:
+		var = { "TYPE": "", "LOW": "", "HIGH": "" }
+	return var
 
 #get defaulted variable from custom table
 def getVariableList(name):
-    table = SqlHelper.GetList("""
-    SELECT *
-    FROM MG_VARIANT_VARIABLE
-    WHERE NAME = '{name}'
-    """.format(name=name)
-    )
-    return table
+	table = SqlHelper.GetList("""
+	SELECT *
+	FROM MG_VARIANT_VARIABLE
+	WHERE NAME = '{name}'
+	""".format(name=name)
+	)
+	return table
 
 #get mills
 def getMill(materialCode):
@@ -313,7 +313,7 @@ def setExcl(Quote, objCode, obj):
 	#get attribute name
 	attrName  = variable["HIGH"]
 	#get inclusion/exclusion table
-	table     = Quote.QuoteTables[tableName]
+	table	 = Quote.QuoteTables[tableName]
 	#populate table
 	setExclTable(Quote, table, attrName, variable, objCode, obj)
 
@@ -348,7 +348,7 @@ def setExclTable(Quote, table, attrName, variable, objCode, obj):
 					#update new row
 					newRow["OBJECT"] 	   = obj
 					newRow["OBJECT_CODE"]  = objCode
-					newRow["CODE"]         = product.Attr(attrName).SelectedValue.ValueCode
+					newRow["CODE"]		 = product.Attr(attrName).SelectedValue.ValueCode
 					newRow["TOPIC"]   	   = product.Attr(attrName).GetValue()
 #Data from Product Containers---------------------------------------------------
 			elif variable["TYPE"] == "S": #Product attributes
@@ -357,15 +357,15 @@ def setExclTable(Quote, table, attrName, variable, objCode, obj):
 					#get new row
 					newRow = table.AddNewRow()
 					#update new row
-					newRow["OBJECT"]       = obj
+					newRow["OBJECT"]	   = obj
 					newRow["OBJECT_CODE"]  = objCode
-					newRow["CODE"]    	   = product.Attr(attr).SelectedValue.ValueCode
+					newRow["CODE"]		   = product.Attr(attr).SelectedValue.ValueCode
 					newRow["TOPIC"]   	   = product.Attr(attr).GetValue()
 				for row in product.GetContainerByName(container).Rows:
 					#get new row
 					newRow = table.AddNewRow()
 					newRow["OBJECT_CODE"]  = objCode
-					newRow["CODE"]    	   = row[colName].ReferencingAttribute.SelectedValue.ValueCode
+					newRow["CODE"]		   = row[colName].ReferencingAttribute.SelectedValue.ValueCode
 					newRow["TOPIC"]   	   = row[colName].Value
 #Data from Product Containers---------------------------------------------------
 			elif variable["TYPE"] == "T": #Product containers
@@ -417,7 +417,7 @@ def setExclCalc(Quote, objCode, obj):
 	#get attribute name
 	attrName  = variable["HIGH"]
 	#get inclusion/exclusion table
-	table     = Quote.QuoteTables[tableName + "_CALC"]
+	table	 = Quote.QuoteTables[tableName + "_CALC"]
 	#populate table
 	setExclTable(Quote, table, attrName, variable, objCode, obj)
 
@@ -515,7 +515,7 @@ def getConditionItems(condType,		#Condition Type
 			multiScale.append(getConditionScale(scale, condType[len(condType)-1]))
 
 		conditionItems["ConditionQtyScale"] 	 = multiScale
-		conditionItems["ConditionValueScale"]    = getEmptyConditionScale()
+		conditionItems["ConditionValueScale"]	= getEmptyConditionScale()
 
 	else:
 		conditionItems["ConditionQtyScale"]			 = getEmptyConditionScale()
@@ -605,12 +605,12 @@ def getCondRebateHeader(func, 	 #Function; constant "009"
 						process	 #process; ex:CREATE or UPDATE
 						):
 	conditionHeader = dict()
-	conditionHeader["Function"] 	      	 = ""
+	conditionHeader["Function"] 		  	 = ""
 	conditionHeader["ApplicationObject"]  	 = ""
 	conditionHeader["TextID"] 	   		  	 = ""
 	conditionHeader["LanguageKey"] 	   	 	 = ""
 	if process == "CREATE":
-		conditionHeader["Function"] 	     = func
+		conditionHeader["Function"] 		 = func
 		conditionHeader["ApplicationObject"] = appObj
 		conditionHeader["TextID"] 	   		 = txtId
 		conditionHeader["LanguageKey"] 	   	 = langKey
@@ -663,7 +663,7 @@ def getRebate(sOrg,			#sales organisation
 	rebate["DistChan"] 		 	  = ""
 	rebate["Division"] 		  	  = ""
 	#BRIAN MOD
- 	#rebate["AgreementNum"]    	  = ""
+ 	#rebate["AgreementNum"]		  = ""
 	rebate["AgreementType"]   	  = ""
  	rebate["RefDocNum"] 	  	  = refDocNum
 	rebate["RebateRecipient"] 	  = ""
@@ -675,7 +675,7 @@ def getRebate(sOrg,			#sales organisation
 		rebate["DistChan"] 		  = distCh
 		rebate["Division"] 		  = div
 		#BRIAN MOD
-  		#rebate["AgreementNum"]    = agrNum
+  		#rebate["AgreementNum"]	= agrNum
 		rebate["AgreementType"]   = agrType
 		rebate["RebateRecipient"] = recipient
 		rebate["CurrencyKey"] 	  = currency
@@ -753,7 +753,7 @@ def getConditionKey(usage,		  #Usage of the condition table; constant "E"
 	conditionKey["SalesOrg"] 	  		= ""
 	conditionKey["DistChan"] 	  		= ""
 	conditionKey["Division"] 	  		= ""
-	conditionKey["VariableKey"]    		= ""
+	conditionKey["VariableKey"]			= ""
 	if process == "UPDATE":
 		conditionKey["Usage"]		  	= usage
 		conditionKey["ConditionTable"]	= tableNum
@@ -762,7 +762,7 @@ def getConditionKey(usage,		  #Usage of the condition table; constant "E"
 		conditionKey["SalesOrg"] 	  	= sOrg
 		conditionKey["DistChan"] 	  	= distCh
 		conditionKey["Division"] 	  	= div
-		conditionKey["VariableKey"]    	= variableKey
+		conditionKey["VariableKey"]		= variableKey
 	conditionKey["Rebate"] 		  		= getRebate(sOrg,		 #sales organisation; Constant "1000"
 													distCh,		 #disctribution channel; Constant "10"
 													div,		 #division; constant "PG"
@@ -783,12 +783,12 @@ def getConditionKey(usage,		  #Usage of the condition table; constant "E"
 													txtLine,  	 #Text line
 													process		 #process; ex:CREATE or UPDATE
 													)
-	conditionKey["ConditionHeader"] 	= getConditionHeader(validFrom,    #rebate valid from
-															 validTo,      #rebate valid to
-															 condType,     #Condition Type
-															 scaleType,    #Scale Type; constant "A"
-															 scaleInd,     #Scale basis indicator; constant "C"
-															 scaleUnit,    #Condition scale unit of measure
+	conditionKey["ConditionHeader"] 	= getConditionHeader(validFrom,	#rebate valid from
+															 validTo,	  #rebate valid to
+															 condType,	 #Condition Type
+															 scaleType,	#Scale Type; constant "A"
+															 scaleInd,	 #Scale basis indicator; constant "C"
+															 scaleUnit,	#Condition scale unit of measure
 															 calcType,	   #Calculation type for condition
 															 rate,		   #Rate (condition amount or perc
 															 rateUnit,	   #Rate unit (currency or percent
@@ -816,7 +816,8 @@ def getRebateCondition(condType,#condition code; ex: Z*%, Z*Q
 					   isEndObj,#contains end use object; ex: True/False
 					   isSb2,	#contains sales brand; ex: True/False
 					   isGroup,	#contains customer hierarchy; ex: True/False
-					   isRlSh	#contains reels sheets; ex: True/False
+					   isRlSh,	#contains reels sheets; ex: True/False
+					   isCust
 					  ):
 	table = SqlHelper.GetFirst("""
 	SELECT *
@@ -825,12 +826,16 @@ def getRebateCondition(condType,#condition code; ex: Z*%, Z*Q
 	AND AGR_TYPE 	= '{agrType}'
 	AND IS_SB2		= '{saleBrd}'
 	AND IS_GROUP	= '{custHie}'
+	AND IS_ENDOBJ	= '{endObj}'
+	AND IS_CUST	    = '{cust}'
 	AND IS_RLSH		= '{reelSh}' """.format(condCode= condType,
 											agrType = agrType,
 											saleBrd = isSb2,
 											custHie = isGroup,
-											reelSh  = isRlSh))
-	return table.TABLE_NUM, table.IS_ENDOBJ if table else ""
+											reelSh  = isRlSh,
+											endObj	= isEndObj,
+											cust	= isCust))
+	return table.TABLE_NUM if table else ""
 
 #get defaulted variable from custom table
 def getVariable(name):
@@ -862,7 +867,7 @@ def getJson(Quote, refDocNum):
 			recipientType = attr.ValueCode
 			break
 	#------------------------------------------------------------------------------
-	if recipientType == "1": #rebate does not have customer group
+	if recipientType == "1" or recipientType == "" : #rebate does not have customer group
 		#Define condition key list which will contain all rebateScaleDict conditions
 		conditionKey = list()
 		#get Reels/Sheets, end use objects and Sales Brands
@@ -973,9 +978,11 @@ def getJson(Quote, refDocNum):
 						brands.append(row["SALES_BRAND_CODE"])
 		#delete duplicates
 		matTypes  = list(dict.fromkeys(matTypes))
-		brands    = list(dict.fromkeys(brands))
-		endObjs   = list(dict.fromkeys(endObjs))
-		isEndObj = isSb2 = isGroup = isRlSh  = False
+		brands=list()#brands	= list(dict.fromkeys(brands))
+		endObjs=list()#endObjs   = list(dict.fromkeys(endObjs))
+		#get sold-to table
+		soldTos = Quote.QuoteTables["BO_SOLDTO"]		#get rebate conditions
+		isEndObj = isSb2 = isGroup = isRlSh = isCust = False
 		#does appendix #2 contains end use object
 		if len(endObjs) > 0:
 			isEndObj = True
@@ -985,31 +992,199 @@ def getJson(Quote, refDocNum):
 		#does appendix #2 contains material type
 		if len(matTypes) > 0:
 			isRlSh = True
-		#get rebate conditions
-		tableNum, isEndObj 	= getRebateCondition(condType, agrType, isEndObj, isSb2, isGroup, isRlSh)
-		#get sold-to table
-		soldTos = Quote.QuoteTables["BO_SOLDTO"]
+		if soldTos.Rows.Count > 0:
+			isCust = True
+		tableNum = getRebateCondition(condType, agrType, isEndObj, isSb2, isGroup, isRlSh, isCust)
+
 	#build variable key-------------------------------------------------------------
 		#1. add sales org
 		variableKey = salesOrg
 		#2. Sales org/Distr ch/Div/Sold-to/SB2/RL-SH
-		for matType in matTypes:
-			if isSb2:
-				for brand in brands:
+		if isRlSh:
+			for matType in matTypes:
+				if isSb2:
+					for brand in brands:
+						for soldTo in soldTos.Rows:
+							variableKey = salesOrg
+							variableKey =  variableKey + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
+							#add end customer if applicable
+							if agrType == "3": #end customer
+								#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+								variableKey = salesOrg + recipient + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
+								if isEndObj:
+									for endObj in endObjs:
+										#add end use object if applicable
+										if isEndObj:
+											variableKey = salesOrg + recipient + brand.ljust(6) + soldTo["SAPID"].zfill(10) + endObj
+
+											#build dictionary for condition key [UPDATE]
+											condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																	  tableNum,	  	#condition table
+																	  app,		  	#Application; constant"V"
+																	  condType, 	#condition type
+																	  variableKey,  #variable key
+																	  sOrg,		  	#sales organisation; Constant "1000"
+																	  distCh,		#disctribution channel; Constant "10"
+																	  div,				#division; constant "PG"
+																	  agrNum,		#Agreement Number
+																	  rebType,	  	#Agreement type
+																	  refDocNum,	#Reference Document Number
+																	  recipient,	#Rebate recipient
+																	  currency,	  	#Currency Key
+																	  validFrom, #agreement valid from
+																	  validTo,	#agreement valid to
+																	  validFrom,	#rebate valid from
+																	  validTo,		#rebate valid to
+																	  func, 		#Function; constant "009"
+																	  appObj, 	  	#Texts: Application Object; constant "KONA"
+																	  txtId,  	  	#Text ID; constant "ZAGR"
+																	  langKey, 	  	#Language Key; constant "E"
+																	  tagCol,		#Tag column; constant "*"
+																	  txtLine,		#Text line
+																	  scaleType, 	#Scale Type; constant "A"
+																	  scaleInd,  	#Scale basis indicator; constant "C"
+																	  scaleUnit, 	#Condition scale unit of measure
+																	  calcType,	  	#Calculation type for condition
+																	  rate,		  	#Rate (condition amount or perc
+																	  rateUnit,		#Rate unit (currency or percent
+																	  condPriceUnit,#Condition pricing unit
+																	  condUnit,		#Condition unit
+																	  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																	  accAmt,		#Accrual Amount
+																	  scale,		#rebate scale table
+																	  "UPDATE"
+																	)
+										else:
+											#build dictionary for condition key [UPDATE]
+											condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																	  tableNum,	  	#condition table
+																	  app,		  	#Application; constant"V"
+																	  condType, 	#condition type
+																	  variableKey,  #variable key
+																	  sOrg,		  	#sales organisation; Constant "1000"
+																	  distCh,		#disctribution channel; Constant "10"
+																	  div,				#division; constant "PG"
+																	  agrNum,		#Agreement Number
+																	  rebType,	  	#Agreement type
+																	  refDocNum,	#Reference Document Number
+																	  recipient,	#Rebate recipient
+																	  currency,	  	#Currency Key
+																	  validFrom, #agreement valid from
+																	  validTo,	#agreement valid to
+																	  validFrom,	#rebate valid from
+																	  validTo,		#rebate valid to
+																	  func, 		#Function; constant "009"
+																	  appObj, 	  	#Texts: Application Object; constant "KONA"
+																	  txtId,  	  	#Text ID; constant "ZAGR"
+																	  langKey, 	  	#Language Key; constant "E"
+																	  tagCol,		#Tag column; constant "*"
+																	  txtLine,		#Text line
+																	  scaleType, 	#Scale Type; constant "A"
+																	  scaleInd,  	#Scale basis indicator; constant "C"
+																	  scaleUnit, 	#Condition scale unit of measure
+																	  calcType,	  	#Calculation type for condition
+																	  rate,		  	#Rate (condition amount or perc
+																	  rateUnit,		#Rate unit (currency or percent
+																	  condPriceUnit,#Condition pricing unit
+																	  condUnit,		#Condition unit
+																	  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																	  accAmt,		#Accrual Amount
+																	  scale,		#rebate scale table
+																	  "UPDATE"
+																	)
+											break
+								else:
+									#build dictionary for condition key [UPDATE]
+									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+															  tableNum,	  	#condition table
+															  app,		  	#Application; constant"V"
+															  condType, 	#condition type
+															  variableKey,  #variable key
+															  sOrg,		  	#sales organisation; Constant "1000"
+															  distCh,		#disctribution channel; Constant "10"
+															  div,				#division; constant "PG"
+															  agrNum,		#Agreement Number
+															  rebType,	  	#Agreement type
+															  refDocNum,	#Reference Document Number
+															  recipient,	#Rebate recipient
+															  currency,	  	#Currency Key
+															  validFrom, #agreement valid from
+															  validTo,	#agreement valid to
+															  validFrom,	#rebate valid from
+															  validTo,		#rebate valid to
+															  func, 		#Function; constant "009"
+															  appObj, 	  	#Texts: Application Object; constant "KONA"
+															  txtId,  	  	#Text ID; constant "ZAGR"
+															  langKey, 	  	#Language Key; constant "E"
+															  tagCol,		#Tag column; constant "*"
+															  txtLine,		#Text line
+															  scaleType, 	#Scale Type; constant "A"
+															  scaleInd,  	#Scale basis indicator; constant "C"
+															  scaleUnit, 	#Condition scale unit of measure
+															  calcType,	  	#Calculation type for condition
+															  rate,		  	#Rate (condition amount or perc
+															  rateUnit,		#Rate unit (currency or percent
+															  condPriceUnit,#Condition pricing unit
+															  condUnit,		#Condition unit
+															  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+															  accAmt,		#Accrual Amount
+															  scale,		#rebate scale table
+															  "UPDATE"
+															)
+							else:
+								#build dictionary for condition key [UPDATE]
+								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+														  tableNum,	  	#condition table
+														  app,		  	#Application; constant"V"
+														  condType, 	#condition type
+														  variableKey,  #variable key
+														  sOrg,		  	#sales organisation; Constant "1000"
+														  distCh,		#disctribution channel; Constant "10"
+														  div,				#division; constant "PG"
+														  agrNum,		#Agreement Number
+														  rebType,	  	#Agreement type
+														  refDocNum,	#Reference Document Number
+														  recipient,	#Rebate recipient
+														  currency,	  	#Currency Key
+														  validFrom, #agreement valid from
+														  validTo,	#agreement valid to
+														  validFrom,	#rebate valid from
+														  validTo,		#rebate valid to
+														  func, 		#Function; constant "009"
+														  appObj, 	  	#Texts: Application Object; constant "KONA"
+														  txtId,  	  	#Text ID; constant "ZAGR"
+														  langKey, 	  	#Language Key; constant "E"
+														  tagCol,		#Tag column; constant "*"
+														  txtLine,		#Text line
+														  scaleType, 	#Scale Type; constant "A"
+														  scaleInd,  	#Scale basis indicator; constant "C"
+														  scaleUnit, 	#Condition scale unit of measure
+														  calcType,	  	#Calculation type for condition
+														  rate,		  	#Rate (condition amount or perc
+														  rateUnit,		#Rate unit (currency or percent
+														  condPriceUnit,#Condition pricing unit
+														  condUnit,		#Condition unit
+														  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+														  accAmt,		#Accrual Amount
+														  scale,		#rebate scale table
+														  "UPDATE"
+														)
+							conditionKey.append(condKey)
+				else:
 					for soldTo in soldTos.Rows:
 						variableKey = salesOrg
-						variableKey =  variableKey + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
+						variableKey =  variableKey + matType + soldTo["SAPID"].zfill(10)
 						#add end customer if applicable
 						if agrType == "3": #end customer
 							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
-							variableKey = salesOrg + endCust + brand.ljust(6) + soldTo["SAPID"].zfill(10) + matType
+							variableKey = salesOrg + recipient + matType + soldTo["SAPID"].zfill(10)
 							if isEndObj:
 								for endObj in endObjs:
 									#add end use object if applicable
 									if isEndObj:
-										variableKey = salesOrg + endCust + brand.ljust(6) + soldTo["SAPID"].zfill(10) + endObj
+										variableKey = salesOrg + recipient + matType + soldTo["SAPID"].zfill(10) + endObj
 
-										#build dictionary for condition key
+										#build dictionary for condition key [UPDATE]
 										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 																  tableNum,	  	#condition table
 																  app,		  	#Application; constant"V"
@@ -1047,7 +1222,7 @@ def getJson(Quote, refDocNum):
 																  "UPDATE"
 																)
 									else:
-										#build dictionary for condition key
+										#build dictionary for condition key [UPDATE]
 										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 																  tableNum,	  	#condition table
 																  app,		  	#Application; constant"V"
@@ -1086,7 +1261,7 @@ def getJson(Quote, refDocNum):
 																)
 										break
 							else:
-								#build dictionary for condition key
+								#build dictionary for condition key [UPDATE]
 								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 														  tableNum,	  	#condition table
 														  app,		  	#Application; constant"V"
@@ -1124,7 +1299,175 @@ def getJson(Quote, refDocNum):
 														  "UPDATE"
 														)
 						else:
-							#build dictionary for condition key
+							#build dictionary for condition key [UPDATE]
+							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+													  tableNum,	  	#condition table
+													  app,		  	#Application; constant"V"
+													  condType, 	#condition type
+													  variableKey,  #variable key
+													  sOrg,		  	#sales organisation; Constant "1000"
+													  distCh,		#disctribution channel; Constant "10"
+													  div,				#division; constant "PG"
+													  agrNum,		#Agreement Number
+													  rebType,	  	#Agreement type
+													  refDocNum,	#Reference Document Number
+													  recipient,	#Rebate recipient
+													  currency,	  	#Currency Key
+													  validFrom, #agreement valid from
+													  validTo,	#agreement valid to
+													  validFrom,	#rebate valid from
+													  validTo,		#rebate valid to
+													  func, 		#Function; constant "009"
+													  appObj, 	  	#Texts: Application Object; constant "KONA"
+													  txtId,  	  	#Text ID; constant "ZAGR"
+													  langKey, 	  	#Language Key; constant "E"
+													  tagCol,		#Tag column; constant "*"
+													  txtLine,		#Text line
+													  scaleType, 	#Scale Type; constant "A"
+													  scaleInd,  	#Scale basis indicator; constant "C"
+													  scaleUnit, 	#Condition scale unit of measure
+													  calcType,	  	#Calculation type for condition
+													  rate,		  	#Rate (condition amount or perc
+													  rateUnit,		#Rate unit (currency or percent
+													  condPriceUnit,#Condition pricing unit
+													  condUnit,		#Condition unit
+													  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+													  accAmt,		#Accrual Amount
+													  scale,		#rebate scale table
+													  "UPDATE"
+													)
+						conditionKey.append(condKey)
+		else:
+			if isSb2:
+				for brand in brands:
+					for soldTo in soldTos.Rows:
+						variableKey = salesOrg
+						variableKey =  variableKey + brand.ljust(6) + soldTo["SAPID"].zfill(10)
+						#add end customer if applicable
+						if agrType == "3": #end customer
+							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+							variableKey = salesOrg + recipient + brand.ljust(6) + soldTo["SAPID"].zfill(10)
+							if isEndObj:
+								for endObj in endObjs:
+									#add end use object if applicable
+									if isEndObj:
+										variableKey = salesOrg + recipient + brand.ljust(6) + soldTo["SAPID"].zfill(10) + endObj
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+									else:
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+										break
+							else:
+								#build dictionary for condition key [UPDATE]
+								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+														  tableNum,	  	#condition table
+														  app,		  	#Application; constant"V"
+														  condType, 	#condition type
+														  variableKey,  #variable key
+														  sOrg,		  	#sales organisation; Constant "1000"
+														  distCh,		#disctribution channel; Constant "10"
+														  div,				#division; constant "PG"
+														  agrNum,		#Agreement Number
+														  rebType,	  	#Agreement type
+														  refDocNum,	#Reference Document Number
+														  recipient,	#Rebate recipient
+														  currency,	  	#Currency Key
+														  validFrom, #agreement valid from
+														  validTo,	#agreement valid to
+														  validFrom,	#rebate valid from
+														  validTo,		#rebate valid to
+														  func, 		#Function; constant "009"
+														  appObj, 	  	#Texts: Application Object; constant "KONA"
+														  txtId,  	  	#Text ID; constant "ZAGR"
+														  langKey, 	  	#Language Key; constant "E"
+														  tagCol,		#Tag column; constant "*"
+														  txtLine,		#Text line
+														  scaleType, 	#Scale Type; constant "A"
+														  scaleInd,  	#Scale basis indicator; constant "C"
+														  scaleUnit, 	#Condition scale unit of measure
+														  calcType,	  	#Calculation type for condition
+														  rate,		  	#Rate (condition amount or perc
+														  rateUnit,		#Rate unit (currency or percent
+														  condPriceUnit,#Condition pricing unit
+														  condUnit,		#Condition unit
+														  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+														  accAmt,		#Accrual Amount
+														  scale,		#rebate scale table
+														  "UPDATE"
+														)
+						else:
+							#build dictionary for condition key [UPDATE]
 							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 													  tableNum,	  	#condition table
 													  app,		  	#Application; constant"V"
@@ -1165,18 +1508,18 @@ def getJson(Quote, refDocNum):
 			else:
 				for soldTo in soldTos.Rows:
 					variableKey = salesOrg
-					variableKey =  variableKey + matType + soldTo["SAPID"].zfill(10)
+					variableKey =  variableKey + soldTo["SAPID"].zfill(10)
 					#add end customer if applicable
 					if agrType == "3": #end customer
 						#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
-						variableKey = salesOrg + endCust + matType + soldTo["SAPID"].zfill(10)
+						variableKey = salesOrg + recipient + soldTo["SAPID"].zfill(10)
 						if isEndObj:
 							for endObj in endObjs:
 								#add end use object if applicable
 								if isEndObj:
-									variableKey = salesOrg + endCust + matType + soldTo["SAPID"].zfill(10) + endObj
+									variableKey = salesOrg + recipient + soldTo["SAPID"].zfill(10) + endObj
 
-									#build dictionary for condition key
+									#build dictionary for condition key [UPDATE]
 									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 															  tableNum,	  	#condition table
 															  app,		  	#Application; constant"V"
@@ -1214,7 +1557,7 @@ def getJson(Quote, refDocNum):
 															  "UPDATE"
 															)
 								else:
-									#build dictionary for condition key
+									#build dictionary for condition key [UPDATE]
 									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 															  tableNum,	  	#condition table
 															  app,		  	#Application; constant"V"
@@ -1253,7 +1596,7 @@ def getJson(Quote, refDocNum):
 															)
 									break
 						else:
-							#build dictionary for condition key
+							#build dictionary for condition key [UPDATE]
 							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 													  tableNum,	  	#condition table
 													  app,		  	#Application; constant"V"
@@ -1291,7 +1634,7 @@ def getJson(Quote, refDocNum):
 													  "UPDATE"
 													)
 					else:
-						#build dictionary for condition key
+						#build dictionary for condition key [UPDATE]
 						condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 												  tableNum,	  	#condition table
 												  app,		  	#Application; constant"V"
@@ -1329,12 +1672,687 @@ def getJson(Quote, refDocNum):
 												  "UPDATE"
 												)
 					conditionKey.append(condKey)
+# variable key without sold to-------------------------------------------------------------
+
+		if soldTos.Rows.Count == 0:
+			if isRlSh:
+				for matType in matTypes:
+					if isSb2:
+						for brand in brands:
+							variableKey = salesOrg
+							variableKey =  variableKey + brand.ljust(6) + matType
+							#add end customer if applicable
+							if agrType == "3": #end customer
+								#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+								variableKey = salesOrg + recipient + brand.ljust(6)  + matType
+								if isEndObj:
+									for endObj in endObjs:
+										#add end use object if applicable
+										if isEndObj:
+											variableKey = salesOrg + recipient + brand.ljust(6) + endObj
+
+											#build dictionary for condition key [UPDATE]
+											condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																	  tableNum,	  	#condition table
+																	  app,		  	#Application; constant"V"
+																	  condType, 	#condition type
+																	  variableKey,  #variable key
+																	  sOrg,		  	#sales organisation; Constant "1000"
+																	  distCh,		#disctribution channel; Constant "10"
+																	  div,				#division; constant "PG"
+																	  agrNum,		#Agreement Number
+																	  rebType,	  	#Agreement type
+																	  refDocNum,	#Reference Document Number
+																	  recipient,	#Rebate recipient
+																	  currency,	  	#Currency Key
+																	  validFrom, #agreement valid from
+																	  validTo,	#agreement valid to
+																	  validFrom,	#rebate valid from
+																	  validTo,		#rebate valid to
+																	  func, 		#Function; constant "009"
+																	  appObj, 	  	#Texts: Application Object; constant "KONA"
+																	  txtId,  	  	#Text ID; constant "ZAGR"
+																	  langKey, 	  	#Language Key; constant "E"
+																	  tagCol,		#Tag column; constant "*"
+																	  txtLine,		#Text line
+																	  scaleType, 	#Scale Type; constant "A"
+																	  scaleInd,  	#Scale basis indicator; constant "C"
+																	  scaleUnit, 	#Condition scale unit of measure
+																	  calcType,	  	#Calculation type for condition
+																	  rate,		  	#Rate (condition amount or perc
+																	  rateUnit,		#Rate unit (currency or percent
+																	  condPriceUnit,#Condition pricing unit
+																	  condUnit,		#Condition unit
+																	  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																	  accAmt,		#Accrual Amount
+																	  scale,		#rebate scale table
+																	  "UPDATE"
+																	)
+										else:
+											#build dictionary for condition key [UPDATE]
+											condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																	  tableNum,	  	#condition table
+																	  app,		  	#Application; constant"V"
+																	  condType, 	#condition type
+																	  variableKey,  #variable key
+																	  sOrg,		  	#sales organisation; Constant "1000"
+																	  distCh,		#disctribution channel; Constant "10"
+																	  div,				#division; constant "PG"
+																	  agrNum,		#Agreement Number
+																	  rebType,	  	#Agreement type
+																	  refDocNum,	#Reference Document Number
+																	  recipient,	#Rebate recipient
+																	  currency,	  	#Currency Key
+																	  validFrom, #agreement valid from
+																	  validTo,	#agreement valid to
+																	  validFrom,	#rebate valid from
+																	  validTo,		#rebate valid to
+																	  func, 		#Function; constant "009"
+																	  appObj, 	  	#Texts: Application Object; constant "KONA"
+																	  txtId,  	  	#Text ID; constant "ZAGR"
+																	  langKey, 	  	#Language Key; constant "E"
+																	  tagCol,		#Tag column; constant "*"
+																	  txtLine,		#Text line
+																	  scaleType, 	#Scale Type; constant "A"
+																	  scaleInd,  	#Scale basis indicator; constant "C"
+																	  scaleUnit, 	#Condition scale unit of measure
+																	  calcType,	  	#Calculation type for condition
+																	  rate,		  	#Rate (condition amount or perc
+																	  rateUnit,		#Rate unit (currency or percent
+																	  condPriceUnit,#Condition pricing unit
+																	  condUnit,		#Condition unit
+																	  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																	  accAmt,		#Accrual Amount
+																	  scale,		#rebate scale table
+																	  "UPDATE"
+																	)
+											break
+								else:
+									#build dictionary for condition key [UPDATE]
+									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+															  tableNum,	  	#condition table
+															  app,		  	#Application; constant"V"
+															  condType, 	#condition type
+															  variableKey,  #variable key
+															  sOrg,		  	#sales organisation; Constant "1000"
+															  distCh,		#disctribution channel; Constant "10"
+															  div,				#division; constant "PG"
+															  agrNum,		#Agreement Number
+															  rebType,	  	#Agreement type
+															  refDocNum,	#Reference Document Number
+															  recipient,	#Rebate recipient
+															  currency,	  	#Currency Key
+															  validFrom, #agreement valid from
+															  validTo,	#agreement valid to
+															  validFrom,	#rebate valid from
+															  validTo,		#rebate valid to
+															  func, 		#Function; constant "009"
+															  appObj, 	  	#Texts: Application Object; constant "KONA"
+															  txtId,  	  	#Text ID; constant "ZAGR"
+															  langKey, 	  	#Language Key; constant "E"
+															  tagCol,		#Tag column; constant "*"
+															  txtLine,		#Text line
+															  scaleType, 	#Scale Type; constant "A"
+															  scaleInd,  	#Scale basis indicator; constant "C"
+															  scaleUnit, 	#Condition scale unit of measure
+															  calcType,	  	#Calculation type for condition
+															  rate,		  	#Rate (condition amount or perc
+															  rateUnit,		#Rate unit (currency or percent
+															  condPriceUnit,#Condition pricing unit
+															  condUnit,		#Condition unit
+															  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+															  accAmt,		#Accrual Amount
+															  scale,		#rebate scale table
+															  "UPDATE"
+															)
+							else:
+								#build dictionary for condition key [UPDATE]
+								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+														  tableNum,	  	#condition table
+														  app,		  	#Application; constant"V"
+														  condType, 	#condition type
+														  variableKey,  #variable key
+														  sOrg,		  	#sales organisation; Constant "1000"
+														  distCh,		#disctribution channel; Constant "10"
+														  div,				#division; constant "PG"
+														  agrNum,		#Agreement Number
+														  rebType,	  	#Agreement type
+														  refDocNum,	#Reference Document Number
+														  recipient,	#Rebate recipient
+														  currency,	  	#Currency Key
+														  validFrom, #agreement valid from
+														  validTo,	#agreement valid to
+														  validFrom,	#rebate valid from
+														  validTo,		#rebate valid to
+														  func, 		#Function; constant "009"
+														  appObj, 	  	#Texts: Application Object; constant "KONA"
+														  txtId,  	  	#Text ID; constant "ZAGR"
+														  langKey, 	  	#Language Key; constant "E"
+														  tagCol,		#Tag column; constant "*"
+														  txtLine,		#Text line
+														  scaleType, 	#Scale Type; constant "A"
+														  scaleInd,  	#Scale basis indicator; constant "C"
+														  scaleUnit, 	#Condition scale unit of measure
+														  calcType,	  	#Calculation type for condition
+														  rate,		  	#Rate (condition amount or perc
+														  rateUnit,		#Rate unit (currency or percent
+														  condPriceUnit,#Condition pricing unit
+														  condUnit,		#Condition unit
+														  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+														  accAmt,		#Accrual Amount
+														  scale,		#rebate scale table
+														  "UPDATE"
+														)
+							conditionKey.append(condKey)
+					else:
+						variableKey = salesOrg
+						variableKey =  variableKey + matType
+						#add end customer if applicable
+						if agrType == "3": #end customer
+							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+							variableKey = salesOrg + recipient + matType
+							if isEndObj:
+								for endObj in endObjs:
+									#add end use object if applicable
+									if isEndObj:
+										variableKey = salesOrg + recipient + matType + endObj
+
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+									else:
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+										break
+							else:
+								#build dictionary for condition key [UPDATE]
+								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+														  tableNum,	  	#condition table
+														  app,		  	#Application; constant"V"
+														  condType, 	#condition type
+														  variableKey,  #variable key
+														  sOrg,		  	#sales organisation; Constant "1000"
+														  distCh,		#disctribution channel; Constant "10"
+														  div,				#division; constant "PG"
+														  agrNum,		#Agreement Number
+														  rebType,	  	#Agreement type
+														  refDocNum,	#Reference Document Number
+														  recipient,	#Rebate recipient
+														  currency,	  	#Currency Key
+														  validFrom, #agreement valid from
+														  validTo,	#agreement valid to
+														  validFrom,	#rebate valid from
+														  validTo,		#rebate valid to
+														  func, 		#Function; constant "009"
+														  appObj, 	  	#Texts: Application Object; constant "KONA"
+														  txtId,  	  	#Text ID; constant "ZAGR"
+														  langKey, 	  	#Language Key; constant "E"
+														  tagCol,		#Tag column; constant "*"
+														  txtLine,		#Text line
+														  scaleType, 	#Scale Type; constant "A"
+														  scaleInd,  	#Scale basis indicator; constant "C"
+														  scaleUnit, 	#Condition scale unit of measure
+														  calcType,	  	#Calculation type for condition
+														  rate,		  	#Rate (condition amount or perc
+														  rateUnit,		#Rate unit (currency or percent
+														  condPriceUnit,#Condition pricing unit
+														  condUnit,		#Condition unit
+														  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+														  accAmt,		#Accrual Amount
+														  scale,		#rebate scale table
+														  "UPDATE"
+														)
+						else:
+							#build dictionary for condition key [UPDATE]
+							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+													  tableNum,	  	#condition table
+													  app,		  	#Application; constant"V"
+													  condType, 	#condition type
+													  variableKey,  #variable key
+													  sOrg,		  	#sales organisation; Constant "1000"
+													  distCh,		#disctribution channel; Constant "10"
+													  div,				#division; constant "PG"
+													  agrNum,		#Agreement Number
+													  rebType,	  	#Agreement type
+													  refDocNum,	#Reference Document Number
+													  recipient,	#Rebate recipient
+													  currency,	  	#Currency Key
+													  validFrom, #agreement valid from
+													  validTo,	#agreement valid to
+													  validFrom,	#rebate valid from
+													  validTo,		#rebate valid to
+													  func, 		#Function; constant "009"
+													  appObj, 	  	#Texts: Application Object; constant "KONA"
+													  txtId,  	  	#Text ID; constant "ZAGR"
+													  langKey, 	  	#Language Key; constant "E"
+													  tagCol,		#Tag column; constant "*"
+													  txtLine,		#Text line
+													  scaleType, 	#Scale Type; constant "A"
+													  scaleInd,  	#Scale basis indicator; constant "C"
+													  scaleUnit, 	#Condition scale unit of measure
+													  calcType,	  	#Calculation type for condition
+													  rate,		  	#Rate (condition amount or perc
+													  rateUnit,		#Rate unit (currency or percent
+													  condPriceUnit,#Condition pricing unit
+													  condUnit,		#Condition unit
+													  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+													  accAmt,		#Accrual Amount
+													  scale,		#rebate scale table
+													  "UPDATE"
+													)
+						conditionKey.append(condKey)
+			else:
+				if isSb2:
+					for brand in brands:
+						variableKey = salesOrg
+						variableKey =  variableKey + brand.ljust(6)
+						#add end customer if applicable
+						if agrType == "3": #end customer
+							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+							variableKey = salesOrg + recipient + brand.ljust(6)
+							if isEndObj:
+								for endObj in endObjs:
+									#add end use object if applicable
+									if isEndObj:
+										variableKey = salesOrg + recipient + brand.ljust(6) + endObj
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+									else:
+										#build dictionary for condition key [UPDATE]
+										condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+																  tableNum,	  	#condition table
+																  app,		  	#Application; constant"V"
+																  condType, 	#condition type
+																  variableKey,  #variable key
+																  sOrg,		  	#sales organisation; Constant "1000"
+																  distCh,		#disctribution channel; Constant "10"
+																  div,				#division; constant "PG"
+																  agrNum,		#Agreement Number
+																  rebType,	  	#Agreement type
+																  refDocNum,	#Reference Document Number
+																  recipient,	#Rebate recipient
+																  currency,	  	#Currency Key
+																  validFrom, #agreement valid from
+																  validTo,	#agreement valid to
+																  validFrom,	#rebate valid from
+																  validTo,		#rebate valid to
+																  func, 		#Function; constant "009"
+																  appObj, 	  	#Texts: Application Object; constant "KONA"
+																  txtId,  	  	#Text ID; constant "ZAGR"
+																  langKey, 	  	#Language Key; constant "E"
+																  tagCol,		#Tag column; constant "*"
+																  txtLine,		#Text line
+																  scaleType, 	#Scale Type; constant "A"
+																  scaleInd,  	#Scale basis indicator; constant "C"
+																  scaleUnit, 	#Condition scale unit of measure
+																  calcType,	  	#Calculation type for condition
+																  rate,		  	#Rate (condition amount or perc
+																  rateUnit,		#Rate unit (currency or percent
+																  condPriceUnit,#Condition pricing unit
+																  condUnit,		#Condition unit
+																  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+																  accAmt,		#Accrual Amount
+																  scale,		#rebate scale table
+																  "UPDATE"
+																)
+										break
+							else:
+								#build dictionary for condition key [UPDATE]
+								condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+														  tableNum,	  	#condition table
+														  app,		  	#Application; constant"V"
+														  condType, 	#condition type
+														  variableKey,  #variable key
+														  sOrg,		  	#sales organisation; Constant "1000"
+														  distCh,		#disctribution channel; Constant "10"
+														  div,				#division; constant "PG"
+														  agrNum,		#Agreement Number
+														  rebType,	  	#Agreement type
+														  refDocNum,	#Reference Document Number
+														  recipient,	#Rebate recipient
+														  currency,	  	#Currency Key
+														  validFrom, #agreement valid from
+														  validTo,	#agreement valid to
+														  validFrom,	#rebate valid from
+														  validTo,		#rebate valid to
+														  func, 		#Function; constant "009"
+														  appObj, 	  	#Texts: Application Object; constant "KONA"
+														  txtId,  	  	#Text ID; constant "ZAGR"
+														  langKey, 	  	#Language Key; constant "E"
+														  tagCol,		#Tag column; constant "*"
+														  txtLine,		#Text line
+														  scaleType, 	#Scale Type; constant "A"
+														  scaleInd,  	#Scale basis indicator; constant "C"
+														  scaleUnit, 	#Condition scale unit of measure
+														  calcType,	  	#Calculation type for condition
+														  rate,		  	#Rate (condition amount or perc
+														  rateUnit,		#Rate unit (currency or percent
+														  condPriceUnit,#Condition pricing unit
+														  condUnit,		#Condition unit
+														  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+														  accAmt,		#Accrual Amount
+														  scale,		#rebate scale table
+														  "UPDATE"
+														)
+						else:
+							#build dictionary for condition key [UPDATE]
+							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+													  tableNum,	  	#condition table
+													  app,		  	#Application; constant"V"
+													  condType, 	#condition type
+													  variableKey,  #variable key
+													  sOrg,		  	#sales organisation; Constant "1000"
+													  distCh,		#disctribution channel; Constant "10"
+													  div,				#division; constant "PG"
+													  agrNum,		#Agreement Number
+													  rebType,	  	#Agreement type
+													  refDocNum,	#Reference Document Number
+													  recipient,	#Rebate recipient
+													  currency,	  	#Currency Key
+													  validFrom, #agreement valid from
+													  validTo,	#agreement valid to
+													  validFrom,	#rebate valid from
+													  validTo,		#rebate valid to
+													  func, 		#Function; constant "009"
+													  appObj, 	  	#Texts: Application Object; constant "KONA"
+													  txtId,  	  	#Text ID; constant "ZAGR"
+													  langKey, 	  	#Language Key; constant "E"
+													  tagCol,		#Tag column; constant "*"
+													  txtLine,		#Text line
+													  scaleType, 	#Scale Type; constant "A"
+													  scaleInd,  	#Scale basis indicator; constant "C"
+													  scaleUnit, 	#Condition scale unit of measure
+													  calcType,	  	#Calculation type for condition
+													  rate,		  	#Rate (condition amount or perc
+													  rateUnit,		#Rate unit (currency or percent
+													  condPriceUnit,#Condition pricing unit
+													  condUnit,		#Condition unit
+													  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+													  accAmt,		#Accrual Amount
+													  scale,		#rebate scale table
+													  "UPDATE"
+													)
+						conditionKey.append(condKey)
+				else:
+					variableKey = salesOrg
+					variableKey =  variableKey
+					#add end customer if applicable
+					if agrType == "3": #end customer
+						#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
+						variableKey = salesOrg + recipient
+						if isEndObj:
+							for endObj in endObjs:
+								#add end use object if applicable
+								if isEndObj:
+									variableKey = salesOrg + recipient + endObj
+
+									#build dictionary for condition key [UPDATE]
+									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+															  tableNum,	  	#condition table
+															  app,		  	#Application; constant"V"
+															  condType, 	#condition type
+															  variableKey,  #variable key
+															  sOrg,		  	#sales organisation; Constant "1000"
+															  distCh,		#disctribution channel; Constant "10"
+															  div,				#division; constant "PG"
+															  agrNum,		#Agreement Number
+															  rebType,	  	#Agreement type
+															  refDocNum,	#Reference Document Number
+															  recipient,	#Rebate recipient
+															  currency,	  	#Currency Key
+															  validFrom, #agreement valid from
+															  validTo,	#agreement valid to
+															  validFrom,	#rebate valid from
+															  validTo,		#rebate valid to
+															  func, 		#Function; constant "009"
+															  appObj, 	  	#Texts: Application Object; constant "KONA"
+															  txtId,  	  	#Text ID; constant "ZAGR"
+															  langKey, 	  	#Language Key; constant "E"
+															  tagCol,		#Tag column; constant "*"
+															  txtLine,		#Text line
+															  scaleType, 	#Scale Type; constant "A"
+															  scaleInd,  	#Scale basis indicator; constant "C"
+															  scaleUnit, 	#Condition scale unit of measure
+															  calcType,	  	#Calculation type for condition
+															  rate,		  	#Rate (condition amount or perc
+															  rateUnit,		#Rate unit (currency or percent
+															  condPriceUnit,#Condition pricing unit
+															  condUnit,		#Condition unit
+															  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+															  accAmt,		#Accrual Amount
+															  scale,		#rebate scale table
+															  "UPDATE"
+															)
+								else:
+									#build dictionary for condition key [UPDATE]
+									condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+															  tableNum,	  	#condition table
+															  app,		  	#Application; constant"V"
+															  condType, 	#condition type
+															  variableKey,  #variable key
+															  sOrg,		  	#sales organisation; Constant "1000"
+															  distCh,		#disctribution channel; Constant "10"
+															  div,				#division; constant "PG"
+															  agrNum,		#Agreement Number
+															  rebType,	  	#Agreement type
+															  refDocNum,	#Reference Document Number
+															  recipient,	#Rebate recipient
+															  currency,	  	#Currency Key
+															  validFrom, #agreement valid from
+															  validTo,	#agreement valid to
+															  validFrom,	#rebate valid from
+															  validTo,		#rebate valid to
+															  func, 		#Function; constant "009"
+															  appObj, 	  	#Texts: Application Object; constant "KONA"
+															  txtId,  	  	#Text ID; constant "ZAGR"
+															  langKey, 	  	#Language Key; constant "E"
+															  tagCol,		#Tag column; constant "*"
+															  txtLine,		#Text line
+															  scaleType, 	#Scale Type; constant "A"
+															  scaleInd,  	#Scale basis indicator; constant "C"
+															  scaleUnit, 	#Condition scale unit of measure
+															  calcType,	  	#Calculation type for condition
+															  rate,		  	#Rate (condition amount or perc
+															  rateUnit,		#Rate unit (currency or percent
+															  condPriceUnit,#Condition pricing unit
+															  condUnit,		#Condition unit
+															  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+															  accAmt,		#Accrual Amount
+															  scale,		#rebate scale table
+															  "UPDATE"
+															)
+									break
+						else:
+							#build dictionary for condition key [UPDATE]
+							condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+													  tableNum,	  	#condition table
+													  app,		  	#Application; constant"V"
+													  condType, 	#condition type
+													  variableKey,  #variable key
+													  sOrg,		  	#sales organisation; Constant "1000"
+													  distCh,		#disctribution channel; Constant "10"
+													  div,				#division; constant "PG"
+													  agrNum,		#Agreement Number
+													  rebType,	  	#Agreement type
+													  refDocNum,	#Reference Document Number
+													  recipient,	#Rebate recipient
+													  currency,	  	#Currency Key
+													  validFrom, #agreement valid from
+													  validTo,	#agreement valid to
+													  validFrom,	#rebate valid from
+													  validTo,		#rebate valid to
+													  func, 		#Function; constant "009"
+													  appObj, 	  	#Texts: Application Object; constant "KONA"
+													  txtId,  	  	#Text ID; constant "ZAGR"
+													  langKey, 	  	#Language Key; constant "E"
+													  tagCol,		#Tag column; constant "*"
+													  txtLine,		#Text line
+													  scaleType, 	#Scale Type; constant "A"
+													  scaleInd,  	#Scale basis indicator; constant "C"
+													  scaleUnit, 	#Condition scale unit of measure
+													  calcType,	  	#Calculation type for condition
+													  rate,		  	#Rate (condition amount or perc
+													  rateUnit,		#Rate unit (currency or percent
+													  condPriceUnit,#Condition pricing unit
+													  condUnit,		#Condition unit
+													  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+													  accAmt,		#Accrual Amount
+													  scale,		#rebate scale table
+													  "UPDATE"
+													)
+					else:
+						#build dictionary for condition key [UPDATE]
+						condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
+												  tableNum,	  	#condition table
+												  app,		  	#Application; constant"V"
+												  condType, 	#condition type
+												  variableKey,  #variable key
+												  sOrg,		  	#sales organisation; Constant "1000"
+												  distCh,		#disctribution channel; Constant "10"
+												  div,				#division; constant "PG"
+												  agrNum,		#Agreement Number
+												  rebType,	  	#Agreement type
+												  refDocNum,	#Reference Document Number
+												  recipient,	#Rebate recipient
+												  currency,	  	#Currency Key
+												  validFrom, #agreement valid from
+												  validTo,	#agreement valid to
+												  validFrom,	#rebate valid from
+												  validTo,		#rebate valid to
+												  func, 		#Function; constant "009"
+												  appObj, 	  	#Texts: Application Object; constant "KONA"
+												  txtId,  	  	#Text ID; constant "ZAGR"
+												  langKey, 	  	#Language Key; constant "E"
+												  tagCol,		#Tag column; constant "*"
+												  txtLine,		#Text line
+												  scaleType, 	#Scale Type; constant "A"
+												  scaleInd,  	#Scale basis indicator; constant "C"
+												  scaleUnit, 	#Condition scale unit of measure
+												  calcType,	  	#Calculation type for condition
+												  rate,		  	#Rate (condition amount or perc
+												  rateUnit,		#Rate unit (currency or percent
+												  condPriceUnit,#Condition pricing unit
+												  condUnit,		#Condition unit
+												  mat,			#Material for rebate settlement; constant "SETTLEMENT MAT"
+												  accAmt,		#Accrual Amount
+												  scale,		#rebate scale table
+												  "UPDATE"
+												)
+					conditionKey.append(condKey)
+
 		# build rebate for adding rebate conditions
 		rebateCond = getRebateXml(conditionKey)
 		# serialize the data
 		updateJson = RestClient.SerializeToJson(rebateCond)
-	#-------------------------------------------------------------------------------
-		#build dictionary for condition key
+
+#------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+		#build dictionary for condition key [CREATE]
 		condKey = getConditionKey(usage,		#Usage of the condition table; constant "E"
 								  tableNum,	  	#condition table
 								  app,		  	#Application; constant"V"
