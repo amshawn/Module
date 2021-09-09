@@ -978,8 +978,8 @@ def getJson(Quote, refDocNum):
 						brands.append(row["SALES_BRAND_CODE"])
 		#delete duplicates
 		matTypes  = list(dict.fromkeys(matTypes))
-		brands=list()#brands	= list(dict.fromkeys(brands))
-		endObjs=list()#endObjs   = list(dict.fromkeys(endObjs))
+		brands	= list()#brands	= list(dict.fromkeys(brands))
+		endObjs   = list()#endObjs   = list(dict.fromkeys(endObjs))
 		#get sold-to table
 		soldTos = Quote.QuoteTables["BO_SOLDTO"]		#get rebate conditions
 		isEndObj = isSb2 = isGroup = isRlSh = isCust = False
@@ -1177,7 +1177,10 @@ def getJson(Quote, refDocNum):
 						#add end customer if applicable
 						if agrType == "3": #end customer
 							#Sales org/Distr ch/Div/Sold-to/SB2/RL-SH/End User
-							variableKey = salesOrg + recipient + matType + soldTo["SAPID"].zfill(10)
+							if tableNum == "704":
+								variableKey = salesOrg + recipient + soldTo["SAPID"].zfill(10) + matType
+							else:
+								variableKey = salesOrg + recipient + matType + soldTo["SAPID"].zfill(10)
 							if isEndObj:
 								for endObj in endObjs:
 									#add end use object if applicable
